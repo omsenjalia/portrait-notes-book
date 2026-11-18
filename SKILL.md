@@ -38,6 +38,9 @@ ink colours, no highlighter marks).
    `assets/shapes.py` samples curves from their definitions, `assets/math_values.py`
    holds every printed result once, `assets/verify_math.py` recomputes them,
    and `assets/contact_sheet.py` makes the visual QA image.
+5. Read `references/topic-map.md` for the complete chapter inventory and
+   `references/lessons.md` for corrections from earlier runs. For an OCR
+   source, follow `references/source-reconstruction.md`.
 
 ---
 
@@ -194,8 +197,12 @@ Pick blocks by what the SOURCE contains, not by the subject label.
   leave it out.
 - Do not invent theorems, APIs, results, or past exam questions.
 - If the source came from OCR, restore superscripts, fractions, Greek letters
-  and arrows. Flag uncertain reconstructions in the chat reply, never inside
-  the PDF.
+  and arrows. Keep a source-evidence ledger beside the book; flag uncertain
+  reconstructions in the chat reply, never inside the PDF. Read
+  `references/source-reconstruction.md` for the full method.
+- A passing preflight proves structure, not mathematics. Rendered KaTeX proves
+  syntax, not fidelity. Recompute the numbers and look at the page before
+  calling a result verified.
 
 ---
 

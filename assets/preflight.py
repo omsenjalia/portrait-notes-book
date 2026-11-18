@@ -139,6 +139,16 @@ if _map:
         if not hit:
             notes.append(f'TOCMAP entry {num} has no matching heading on page {pno}')
 
+# ---- no AI remarks or process commentary in the PDF ----
+# A textbook must not talk about how it was made. Legitimate references to a
+# lecture source (e.g. "Source lecture notes" in References) are allowed.
+_banned = ('reconstructed from', 'typeset by', 'clarity improved', 'ai-generated',
+           'as the source', 'in the source', 'the source says', 'chatgpt',
+           'claude', 'llm generated', 'presumably,', 'unverified claim')
+for _phrase in _banned:
+    if _phrase in alltext.lower():
+        fails.append(f'process commentary in PDF: {_phrase!r}')
+
 # ---- required pages ----
 if mode == 'slice':
     reqs = ['About this book', 'Contents', 'Review questions', 'Chapter summary']
