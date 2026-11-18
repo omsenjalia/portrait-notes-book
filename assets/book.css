@@ -19,7 +19,7 @@ h2{font-size:22.7pt;line-height:1.3;color:#10131a;margin:34.7pt 0 13.3pt;break-a
 h2 .sn{color:#3b3fa8}
 h3{font-size:18.0pt;margin:21.3pt 0 8.0pt;color:#10131a;break-after:avoid}
 ul{margin:0 0 13.3pt;padding-left:24.0pt}li{margin-bottom:4.0pt}
-.t,.t3{width:100%;border-collapse:collapse;margin:10.7pt 0 18.7pt;font-size:14.7pt;line-height:1.5}
+.t,.t3{width:100%;border-collapse:collapse;margin:10.7pt 0 18.7pt;font-size:16pt;line-height:1.5}
 .t th,.t3 th{background:#3b3fa8;color:#fff;font-size:11.3pt;letter-spacing:.12em;text-align:left;padding:9.3pt 12.0pt}
 .t td,.t3 td{border-bottom:.8.0pt solid #d3d9e6;padding:9.3pt 12.0pt;vertical-align:top}
 .t tr:nth-child(even) td{background:#f4f6fb}
@@ -32,6 +32,9 @@ ul{margin:0 0 13.3pt;padding-left:24.0pt}li{margin-bottom:4.0pt}
 .slip .w b{color:#d1342a}.slip .r2 b{color:#17803d}
 .ex{border:1.3pt solid #d3d9e6;border-radius:5.3pt;margin:16.0pt 0}
 .exh{break-after:avoid}
+.exmeta{break-before:avoid;break-after:avoid}
+.exfig{break-before:avoid;break-inside:avoid}
+.excheck{break-before:avoid;break-inside:avoid}
 .exh{background:#1b1f4b;color:#fff;font-weight:700;padding:10.7pt 18.7pt;border-radius:4.0pt 4.0pt 0 0}
 .exc{font-size:11.3pt;letter-spacing:.14em;text-transform:uppercase;color:#aab0ff;margin-right:10.7pt;font-weight:400}
 .exb{padding:16.0pt 18.7pt 2.7pt}
@@ -61,7 +64,7 @@ ul{margin:0 0 13.3pt;padding-left:24.0pt}li{margin-bottom:4.0pt}
 .otitle{position:absolute;left:14mm;top:36mm;width:92mm;margin:0;font-size:42.7pt;line-height:1.15;color:#fff}.otitle span{color:#aab0ff}
 .orule{position:absolute;left:14mm;top:92mm;width:22mm;border-top:4.0pt solid #aab0ff}
 .olead{position:absolute;left:14mm;top:100mm;width:88mm;color:#e6e8ff;font-size:16.0pt}
-.opill{position:absolute;left:14mm;top:136mm;width:88mm;border:1.3pt solid #aab0ff;color:#fff;font-size:11.3pt;letter-spacing:.1em;padding:5.3pt 10.7pt;border-radius:14.7pt;line-height:1.4}
+.opill{position:absolute;left:14mm;top:150mm;width:88mm;border:1.3pt solid #aab0ff;color:#fff;font-size:11.3pt;letter-spacing:.1em;padding:5.3pt 10.7pt;border-radius:14.7pt;line-height:1.4}
 .oformula{position:absolute;left:14mm;top:212mm;color:#fff;font-size:32.0pt}
 .obadge{position:absolute;left:14mm;bottom:16mm}
 .oright{position:absolute;left:124mm;top:60mm;width:70mm}
@@ -102,7 +105,8 @@ p{orphans:3;widows:3}
 .mm{position:relative;border:1.3pt solid #c7cbe6;border-radius:8.0pt;background:#f8f9fd;padding:18.7pt;margin:10.7pt 0}
 .mm .hub{display:block;width:100%;text-align:center;background:#1b1f4b;color:#fff;border-radius:6.7pt;padding:10.7pt;font-weight:700;font-size:17.3pt;margin-bottom:16.0pt}
 .mm .branch{display:flex;gap:10.7pt;margin-bottom:10.7pt}
-.mm .node{flex:1;border-left:4.0pt solid #3b3fa8;background:#fff;border-radius:4.0pt;padding:9.3pt 12.0pt;font-size:14.0pt;line-height:1.4;break-inside:avoid}
+.mm .node{flex:1;border-left:4.0pt solid #3b3fa8;background:#fff;border-radius:4.0pt;padding:12pt 12pt;font-size:16pt;line-height:1.6;break-inside:avoid}
+.mm .node .katex{font-size:1em}
 .mm .node b{color:#3b3fa8;display:block;font-size:14.7pt}
 
 /* Quick reference */
@@ -118,7 +122,7 @@ p{orphans:3;widows:3}
 /* Glossary and references */
 .gloss dt{font-weight:700;color:#3b3fa8;margin-top:10.7pt;font-size:16.0pt}
 .gloss dd{margin:0 0 5.3pt 16.0pt;font-size:16.0pt;line-height:1.5}
-.refs{font-size:14.7pt;line-height:1.6;padding-left:21.3pt}
+.refs{font-size:16pt;line-height:1.6;padding-left:21.3pt;break-inside:avoid}
 .refs li{margin-bottom:5.3pt}
 
 /* Closing page */
@@ -144,7 +148,7 @@ p{orphans:3;widows:3}
 .ws .body{flex:1}
 .ws .ann{color:#b06f00;font-size:12.0pt;line-height:1.3;margin-left:10.7pt;max-width:32%;text-align:left}
 .ws .note{color:#6b46d6;font-size:12.0pt}
-.wsbox{display:inline-block;border:1.6pt solid #b06f00;background:#fffaf0;border-radius:4.0pt;padding:1.3pt 12.0pt;font-weight:700;color:#7a4b00}
+.wsbox{display:inline-block;border:1.6pt solid #17803d;background:#eff8f1;border-radius:4.0pt;padding:1.3pt 12.0pt;font-weight:700;color:#17803d}
 .wshead{font-size:12.0pt;letter-spacing:.1em;text-transform:uppercase;color:#3b3fa8;margin:10.7pt 0 2.7pt}
 /* Keep a section heading with its lead paragraph: no break before the first
    paragraph after an h2, and keep that paragraph with the block that follows. */
