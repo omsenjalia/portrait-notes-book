@@ -244,52 +244,46 @@ spacing matter more than a page target.
 
 ## DESIGN SYSTEM
 
-### Theme tokens (light — default)
+### The taste system (light — default)
+
+Read `references/taste-system.md` in full before restyling. One palette, one
+accent, one card recipe, one type scale. The page is 90–95 % neutral; colour
+is information, not decoration. **Never violet or lavender.** No grid
+backgrounds, no tracked-capital ribbons, no six-colour chip legend.
 
 ```
-Page:           #ffffff
-Card:           #f4f6fb
-Card-2:         #e9edf6
-Border:         #d3d9e6
-Text primary:   #10131a
-Text body:      #2a2f3b
-Text muted:     #667085
-Pack accent:    from the STYLE PACK (dsa: #1a64d8)  (headings, section numbers, pills)
-Pack dark:      from the STYLE PACK (dsa: #0f1b33)  (opener panel, status bar)
-Highlight:      #fff176   (title highlight bar on the cover only)
-Blue:           #1a64d8
-Teal:           #0e8f80
-Purple:         #6b46d6
-Red:            #d1342a
-Amber:          #b06f00
-Green:          #17803d
-Code bg:        #f3f5fa
+Page:     #ffffff    Ink:        #14181b    Muted:   #66717a
+Surface:  #f5f6f4    Hairline:   #dfe3e0    Accent:  #0d6d78
+Error:    #b3392e    Result:     #1f7a4d    Dark:    #14181b
+Radius:   6 pt       Margins:    22 mm on all four sides
 ```
 
-Dark theme: near-black page (#0b0b0d), same hues lifted for contrast.
+The accent appears on section numbers, links, rules and small marks — under
+5 % of any page. Red is used only for a wrong step, green only for a boxed
+answer or a check. Everything else is ink, muted grey or surface.
 
 ### Typography (Google Sans) — LARGE and ROOMY
 
-- Body **16 pt**, line-height **1.65**. Bold = Google Sans Bold. No faux bold.
-- Chapter title 42 pt bold. Section heading 23 pt bold, number in the PACK ACCENT colour (never a fixed green).
-  Sub-heading 18 pt.
-- Captions 13 pt muted. Ribbons / labels 11–12 pt, uppercase, tracked.
+- Body **16 pt**, line-height **1.65**. Only weights 400 and 700. No faux bold.
+- Chapter title 42 pt, section heading 23 pt, sub-heading 18 pt; display
+  tracking **−0.03 em**, headings **−0.02 em**. Sentence case everywhere.
+- Captions 13 pt muted. Labels 12 pt, sentence case, regular weight — never
+  uppercase tracked capitals, never coloured chips.
 - Code: Google Sans Code 14 pt, line-height 1.6, ligatures OFF.
 - Text inside diagrams: minimum 12 pt at print size.
-- Spacing scale: paragraph gap 10 pt; gap before a section heading 26 pt,
-  after it 10 pt; box padding 16–18 pt; gap between a box and the next block
-  18 pt. Page margins 20 mm sides, 22 mm top and bottom.
-- **Fewer things per page.** If a page holds more than one big figure plus one
-  box plus text, move the last item to the next page. White space is part of
-  the design. The page count is set by PAGE_BUDGET only.
-- Running header and footer: from the STYLE PACK.
+- Spacing scale (pt): 4, 8, 12, 16, 24, 32, 48. Paragraph gap 11 pt; before a
+  section heading 27 pt, after it 11 pt; card padding 13–16 pt.
+- Running header and footer: the book title on the left, the current section
+  on the right, in muted grey and the accent; one hairline each.
+- **Fewer things per page.** White space is part of the design. Extra pages
+  are acceptable; never cram to hit a number.
 
 ### Boxes and callouts
 
-- Left accent bar (3 pt) plus a very light tint of the accent colour.
-- Note → teal. Tip → blue. Simple picture / Historical note → amber.
-  Trap → red. Summary → green. Objectives → blue outline card.
-- Definition and formula boxes use the notched-corner card with a ribbon.
+One card recipe: surface fill, 1 pt hairline, 6 pt radius, 13–16 pt padding.
+A card is identified by a 3 pt left rule and a small sentence-case label in
+the same colour — not by a different shape. Wrong cards use the error colour;
+summaries and checks use the result colour.
 
 ### Code highlighting (light)
 

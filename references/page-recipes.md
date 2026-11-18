@@ -19,12 +19,12 @@ subject-neutral.
   of a content page, never half a page. See the pack for the drawing.
 - **About this book** (2 pages): intro paragraph; "What you should know first" (3 bullets); "How each chapter is built" table
   (BOX | WHAT IT GIVES YOU: Learning objectives, Definition, Example, Note/Trap/Simple picture, Chapter summary, Review questions);
-  "How to read the figures" (the six shape chips) and the colour legend (teal main flow, blue data, purple rule or formula, red wrong
+  "How to read the figures" and the role colours (accent teal for rules and structure, red for wrong, green for results; everything else neutral ink)
   or trap, amber picture or analogy, green right or result); "GATE tags" paragraph saying a tag marks an official-syllabus topic,
   a GATE corner lists verified past questions, and unconfirmed ones get the syllabus tag only.
 - **Contents**: chapter rows in bold with page, section rows indented, then Mind map, Quick reference, You learned how to,
   Glossary and references, So, what is next?.
-- **Tables**: header band with uppercase tracked column names. Table and listing captions above, figure captions below.
+- **Tables**: header band with sentence-case column names. Table and listing captions above, figure captions below.
 - **Common mistakes** (x.1; in maths called Common slips): one card per mistake: number + title, WRONG line, RIGHT line, one reason line. 3 cards then 2.
 - **Learning in action** (x.2): page 1 `// LEARNING IN ACTION` (any pack: same heading text), FUN FACTS (2) and DID YOU KNOW (2). Page 2 `! Find errors`
   (maths: Find the slip) with 2 cards (Find the error / What's wrong / Fix it) and the TASK (Assessment question). "Answers are on page N".
@@ -41,8 +41,8 @@ subject-neutral.
 - **GATE pill** on the opener, form `GATE <PAPER> · <SYLLABUS SECTION> · <TOPIC>` (never a bare `GATE ·`).
 - **Tag pill** on every practice card (SOLVE, PROVE, FIND THE SLIP, COMPUTE, COMPARE, TRACE, FIND THE BUG, GATE-STYLE).
 - **Step pills** (`Step 1`, `A`, `B`, `C`) on every procedure and proof.
-- **Ribbon** on every Definition, Theorem and Formula card. **Example chip** `Example 2.1` in the worked-example header band.
-- **Chapter-number hexagon** on the opener. **Value pill** for complexity (dsa) or a result value (maths).
+- **Small sentence-case label** on every Definition, Theorem and Formula card. **Example** line `Example 2.1` in the worked-example header band.
+- **Ring badge** with the chapter number on the opener. A quiet value line for a result (maths).
 
 ### Things earlier builds got wrong. Do NOT copy these
 
@@ -71,7 +71,7 @@ Do not use a shape purely as decoration.
 | Diamond | A decision, with YES / NO branches |
 | Parallelogram | Input / output |
 | Pill (capsule) | A tag or chip: GATE, complexity value |
-| Hexagon | The chapter-number badge on each chapter opener |
+| Ring | The chapter-number badge on each chapter opener |
 | Chevron | Stages in a process, left to right |
 | Cylinder | Stored data: database, disk, file |
 | Stack of rectangles | A stack, call stack, or layers |
@@ -88,8 +88,8 @@ Do not use a shape purely as decoration.
 Arrows: solid = flow, dashed = reference or optional, curved = jump or return,
 double-headed = equivalence.
 
-Colour by role: teal = main flow, blue = data, purple = rule / formula, red =
-wrong or problem, amber = analogy, green = right / result.
+Colour by role: accent teal = rule or structure, red = wrong or problem, green =
+right or result. Everything else is neutral ink, muted grey or surface.
 
 Rules: every shape has a short label; diagrams stay readable at print size
 (min 7 pt text in shapes); no textures, no fake handwriting, no heavy shadows,

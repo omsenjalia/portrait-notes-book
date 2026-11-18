@@ -1,94 +1,91 @@
 # portrait-notes-book
 
-Turn ONE lecture source (PDF, notes, slides, OCR'd transcript) into ONE
-finished **A4 portrait PDF** that reads like a short, well-made **textbook** —
-numbered chapters and sections, full-page chapter openers, worked examples,
-teaching figures, review questions, practice set with answer key, mind map,
-quick reference and glossary — with a **preflight QA script** that gates
-delivery.
+Turn one lecture source — PDF, notes, slides or an OCR transcript — into one
+A4 portrait PDF that reads like a short textbook. The output has numbered
+sections, worked examples with diagrams, review questions, a practice set with
+an answer key, a mind map, a quick reference and a glossary. A preflight script
+checks the result before delivery.
 
-This is an agent skill: give the SKILL.md to any coding agent (Claude Code,
-OpenCode, Codex-style CLIs, …) together with your course material, and it
-builds the book for you.
+This is an agent skill. Give `SKILL.md` and your course material to any coding
+agent that reads skill files.
 
-## What you get
+## What it produces
 
-- **One template, every subject** — subject style packs: `dsa`/`programming`
-  (code-editor look), `maths` (graph-paper look), `theory`, `spreadsheet`,
-  `mixed`. The pack sets the cover, chapter openers, accent colour and box
-  styles; the layout rules are subject-neutral.
-- **Real build tooling, battle-tested** — WeasyPrint + KaTeX pipeline with the
-  hard-won fixes baked in (`file://` font URLs, named cover/opener pages,
-  ribbon-inside-box, `break-after:avoid`, two-pass Contents page numbers,
-  `font-family` on every SVG).
-- **Honest QA** — `preflight.py` hard-checks page size, fonts, body size, page
-  budget, stranded headings, opener integrity, Contents page numbers and
-  required pages. A FAIL means rebuild, not "mention it".
-- **Accuracy rules** — every worked example is recomputed, historical claims
-  need a source you actually read, and GATE (exam-syllabus) tagging is
-  verify-first, `off` by default for anything else.
+- One PDF per source. Real selectable text, vector diagrams, embedded fonts.
+- A quiet, neutral design with one teal accent, equal margins and one card
+  style. No violet, no decorative grids, no coloured chip legends. See
+  `references/taste-system.md`.
+- Five subject packs: `dsa`, `programming`, `maths`, `theory`, `spreadsheet`
+  and `mixed`. The pack chooses the cover and page frame; the layout rules
+  are the same for every subject.
+- Worked sums are written one algebraic step per line with a margin note and a
+  boxed answer. Each example carries its own diagram, drawn from the actual
+  mathematics rather than a decorative sketch.
+- `preflight.py` checks page size, fonts, type size, page budget, stranded
+  headings, opener integrity, Contents page numbers and required pages.
+  `verify_math.py` recomputes every printed result.
 
-## Example output
+## Examples
 
-| | |
+| File | What it shows |
 |---|---|
-| [`examples/Binary_Search_Notes.pdf`](examples/Binary_Search_Notes.pdf) | Finished full-mode book, `dsa` pack (code-editor look) |
-| [`examples/Infinite_Series_Slice_Test.pdf`](examples/Infinite_Series_Slice_Test.pdf) | One-chapter maths-pack slice from the worked harness |
+| `examples/Binary_Search_Notes.pdf` | Finished full-mode book, `dsa` pack |
+| `examples/Infinite_Series_Slice_Test.pdf` | One-chapter maths-pack slice |
+
+The first PDF is a style reference from an earlier build; it does not pass the
+current `full` preflight. The second passes `slice`.
 
 ## Install
 
-Clone the repo into your harness's skills directory:
+Clone into your harness's skills directory. The repository root is the skill
+directory.
 
 ```sh
-# Claude Code
-git clone https://github.com/omsenjalia/portrait-notes-book ~/.claude/skills/portrait-notes-book
-
-# OpenCode
 git clone https://github.com/omsenjalia/portrait-notes-book ~/.config/opencode/skills/portrait-notes-book
+git clone https://github.com/omsenjalia/portrait-notes-book ~/.claude/skills/portrait-notes-book
 ```
-
-(Any harness that reads `SKILL.md` files works the same way: the repo root is
-the skill directory.)
 
 ## Use
 
-Ask the agent for a book, e.g.:
+Ask for a book and name the source:
 
 > Make study notes on multiple integrals from `lecture-1.md`, maths pack, mini mode.
 
-Or with overrides in chat: *"dark theme"*, *"no GATE tags"*, *"compact"*,
-*"mini"*.
+The agent follows the staged plan in `SKILL.md`:
+`content.md → build → preflight → deliver`.
 
-The agent follows the staged RUN PLAN inside `SKILL.md`:
-**content.md → build (reusing `assets/`) → preflight → deliver**, and reports
-what was verified and what was not.
+## Dependencies
 
-## Dependencies (installed once per project, on first run)
+Installed once per project, on first use.
 
-| Tool | Used for |
-|---|---|
-| `pip install weasyprint brotli pdfminer.six --break-system-packages` | HTML/CSS → PDF rendering and preflight |
-| `npm install @fontsource/google-sans @fontsource/google-sans-code katex` | Real Google Sans fonts + server-side KaTeX |
-| `pip install pymupdf pillow --break-system-packages` (optional) | Contact-sheet visual QA only — never used for text extraction |
+```sh
+pip install weasyprint brotli pdfminer.six --break-system-packages
+npm install @fontsource/google-sans @fontsource/google-sans-code katex
+pip install pymupdf pillow --break-system-packages   # optional: contact sheets
+```
 
-## Repo layout
+PyMuPDF is used only to render contact-sheet thumbnails. Text extraction and
+QA stay on pdfminer, which is fast on WeasyPrint output.
+
+## Repository layout
 
 ```
-SKILL.md                  the skill: config, rules, run plan, build method
-references/style-packs.md the 5 subject style packs in full
-references/page-recipes.md page recipes, shape library, pill inventory
-assets/preflight.py       QA script (full | mini | slice modes; checks TOCMAP anchors)
-assets/build_slice.py     worked one-chapter maths build (reference harness)
-assets/book.css           maths-pack stylesheet + back-matter components
-assets/mathrender.js      batch KaTeX renderer (node)
-assets/shapes.py          sampled SVG primitives (axes, plot, region, polar, arrows)
-assets/math_values.py     one source of truth for every printed number
-assets/verify_math.py     recomputes all values; exit 1 on any mismatch
-assets/contact_sheet.py   visual QA thumbnail grid (optional PyMuPDF + Pillow)
-SOURCES.md                exact citation strings for historical claims
-examples/                 two finished PDFs, showcase + style reference
+SKILL.md                     rules, run plan, build method
+references/taste-system.md   the one palette, type scale and card recipe
+references/style-packs.md    the subject packs
+references/page-recipes.md   page recipes, shape library, figure grammar
+assets/book.css              the stylesheet
+assets/build_slice.py        worked one-chapter build
+assets/shapes.py             sampled SVG primitives
+assets/math_values.py        canonical results
+assets/verify_math.py        recomputes every result
+assets/preflight.py          QA script: full | mini | slice
+assets/contact_sheet.py      visual QA grid
+assets/mathrender.js         batch KaTeX renderer
+examples/                    two finished PDFs
+SOURCES.md                   exact citation strings
 ```
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT. See `LICENSE`.

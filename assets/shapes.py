@@ -17,9 +17,9 @@ No third-party dependencies.
 import html, math
 
 ROLE = {
-    'flow': '#0e8f80', 'data': '#1a64d8', 'rule': '#6b46d6',
-    'wrong': '#d1342a', 'analogy': '#b06f00', 'result': '#17803d',
-    'axis': '#667085', 'grid': '#e9ecf7', 'accent': '#3b3fa8',
+    'flow': '#0e8f80', 'data': '#0d6d78', 'rule': '#0d6d78',
+    'wrong': '#b3392e', 'analogy': '#66717a', 'result': '#1f7a4d',
+    'axis': '#667085', 'grid': '#e9ecea', 'accent': '#0d6d78',
 }
 
 

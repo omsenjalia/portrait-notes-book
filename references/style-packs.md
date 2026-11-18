@@ -7,14 +7,14 @@ Code, algorithms, data structures, complexity -> `dsa`/`programming`
 (graph-paper look). OS, DBMS, networks, TOC -> `theory`. Excel/Sheets itself
 -> `spreadsheet`. Table header bands, section numbers, pills, ribbons, page
 numbers and the closing page all use the PACK ACCENT, so a dsa book is blue
-and a maths book is indigo; nothing is green by default.
+and a maths book is deep teal; nothing is green by default.
 
 ---
 
 ## Pack: dsa / programming (code-editor look)
 
 - **Accent**: blue `#1a64d8`; dark panels navy `#0f1b33`; light tints of blue.
-  Teal, purple, amber, red, green keep their role colours inside figures.
+  Role colours come from `references/taste-system.md`: accent teal, error red, result green.
 - **Page header**: editor tab bar. Three small window dots, an active file tab
   (e.g. `binary_search.c`, blue underline), then a muted breadcrumb in
   Google Sans Code: `binary_search › Chapter 2`. No grid, no ruler.
@@ -40,19 +40,19 @@ this pack.
 
 ## Pack: maths (graph-paper look)
 
-- **Accent**: deep indigo `#3b3fa8`; dark panels `#1b1f4b`; light indigo text on dark `#aab0ff`; amber for hints. Nothing green except the Summary box and "right" results.
-- **Page header**: thin ruled strip, chapter name left, section number and title right, faint graph-paper grid behind the header only.
+- **Accent**: deep teal `#0d6d78`; dark panels `#14181b`; light accent text on dark `#9fb7ba`. Error red only for wrong steps, result green only for answers and checks.
+- **Page header**: thin ruled strip, chapter name left, section number and title right, one hairline under the header; no grid.
 - **Footer**: thin rule, `<Book title>` left in muted text, page number centred in a small circle.
-- **Chapter opener** (FULL PAGE, its own page): the dark indigo panel fills the LEFT 55 % of the page from top to bottom, with a faint graph-paper
-  grid and a faint axes-and-curve drawing in it. On the panel, top to bottom: a "Chapter n" tab chip, the title at 32 pt white with the key word in light
-  indigo, a short rule, a two-line lead in white, the GATE pill, then one large KaTeX formula (white, 40–48 pt) and the chapter-number hexagon badge at the
-  bottom. The RIGHT 45 % is white: the label `IN THIS CHAPTER YOU WILL LEARN TO`, then 4 rows, each a hexagon icon badge plus one objective line. Same
+- **Chapter opener** (FULL PAGE, its own page): the dark panel fills the LEFT 55 % of the page from top to bottom, with a single quiet curve
+  a single quiet curve. On the panel, top to bottom: a "Chapter n" tab chip, the title at 32 pt white with the key word in light
+  light accent, a short rule, a two-line lead in white, the GATE pill, then one large KaTeX formula (white, 40–48 pt) and a ring badge with the chapter number at the
+  bottom. The RIGHT 45 % is white: the label `IN THIS CHAPTER YOU WILL LEARN TO`, then 4 rows, each a ring icon badge plus one objective line. Same
   geometry as the dsa opener, only the decoration differs.
 - **Cover**: graph-paper background, x/y axes with one real curve from the topic, the main formula set large, series tag `ENGINEERING MATHEMATICS · STUDY NOTES`,
   three-line title with the key word highlighted, subtitle bar, one plain sentence, three preview cards: a worked example, a graph, a formula or test card.
   (A plain white cover with a formula card is NOT the maths cover.)
 - **Blocks**: Theorem / Definition / Formula (notched cards with ribbon), Proof (Step pills A, B, C, ending with a QED square), Worked example with numbered
-  steps and the Example chip, "Common slip" (red card: wrong line -> right line), Intuition picture (amber).
+  steps and the Example chip, "Common slip" (red card: wrong line -> right line), Intuition picture (surface card).
 - **Practice flavour**: cards with a tag pill (SOLVE, PROVE, FIND THE SLIP, GATE-STYLE, COMPUTE), a number badge and a big YOUR WORKING area (at least 5 ruled lines or a small grid box).
 
 See `assets/build_slice.py` + `assets/book.css` and

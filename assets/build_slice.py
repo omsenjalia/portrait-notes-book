@@ -43,10 +43,10 @@ tex = []
 def m(t, disp=False):
     tex.append((t, disp)); return f'@@{len(tex)-1}@@'
 def M(t): return m(t, True)
-IND = '#3b3fa8'; DARK = '#1b1f4b'
+IND = '#0d6d78'; DARK = '#14181b'
 def hexa(txt, size=34, fill=None, stroke=IND, col=IND):
     f = fill or 'none'
-    return f'<svg width="{size}" height="{size}" viewBox="0 0 40 40"><polygon points="20,2 37,11 37,29 20,38 3,29 3,11" fill="{f}" stroke="{stroke}" stroke-width="2"/><text x="20" y="25.5" text-anchor="middle" font-size="15" font-weight="700" fill="{col}">{txt}</text></svg>'
+    return f'<svg width="{size}" height="{size}" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="{f}" stroke="{stroke}" stroke-width="1.5"/><text x="20" y="25.5" text-anchor="middle" font-size="15" font-weight="700" fill="{col}">{txt}</text></svg>'
 
 def build(pages_map):
     tex.clear()
@@ -55,9 +55,9 @@ def build(pages_map):
     curve = ' '.join(f'{40+i*22},{250-(1-1/(i+2))*170:.1f}' for i in range(0, 12))
     cover = f'''<section class="cover"><div class="grid"></div>
     <svg class="axes" width="360" height="270" viewBox="0 0 360 270"><line x1="30" y1="250" x2="350" y2="250" stroke="{IND}" stroke-width="1.6"/><line x1="30" y1="250" x2="30" y2="20" stroke="{IND}" stroke-width="1.6"/>
-    <line x1="30" y1="80" x2="350" y2="80" stroke="#6b46d6" stroke-width="1.2" stroke-dasharray="5 4"/><polyline points="{curve}" fill="none" stroke="{IND}" stroke-width="2.4"/>
+    <line x1="30" y1="80" x2="350" y2="80" stroke="#0d6d78" stroke-width="1.2" stroke-dasharray="5 4"/><polyline points="{curve}" fill="none" stroke="{IND}" stroke-width="2.4"/>
     {''.join(f'<circle cx="{40+i*22}" cy="{250-(1-1/(i+2))*170:.1f}" r="3.4" fill="{IND}"/>' for i in range(0, 12))}
-    <text x="338" y="72" font-size="11" fill="#6b46d6" text-anchor="end">S = 1</text><text x="344" y="266" font-size="11" fill="#667085" text-anchor="end">n</text></svg>
+    <text x="338" y="72" font-size="11" fill="#0d6d78" text-anchor="end">S = 1</text><text x="344" y="266" font-size="11" fill="#667085" text-anchor="end">n</text></svg>
     <div class="ctag">ENGINEERING MATHEMATICS &middot; STUDY NOTES</div>
     <div class="ctitle"><span class="hl">Infinite</span><br>Series<br>Notes</div>
     <div class="cformula">{M(r'\sum_{n=1}^{\infty}\frac{1}{2^{n}}=\frac12+\frac14+\frac18+\cdots=1')}</div>
@@ -83,11 +83,11 @@ def build(pages_map):
     obj = ['Write the general term and the n-th partial sum of a series', 'Decide convergence, divergence to infinity, or oscillation from the partial sums', 'Recognise a telescoping series and evaluate its sum', 'Spot the three classical oscillating examples']
     orows = ''.join(f'<div class="orow">{hexa(i+1, 34)}<div>{t}</div></div>' for i, t in enumerate(obj))
     opener = f'''<section class="opener"><div class="panel"><div class="pgrid"></div>
-    <svg class="pcurve" width="300" height="180" viewBox="0 0 300 180"><line x1="10" y1="170" x2="290" y2="170" stroke="#aab0ff" stroke-width="1.4"/><line x1="10" y1="170" x2="10" y2="10" stroke="#aab0ff" stroke-width="1.4"/><path d="M10,160 C60,60 120,40 290,30" fill="none" stroke="#aab0ff" stroke-width="2.2"/></svg>
+    <svg class="pcurve" width="300" height="180" viewBox="0 0 300 180"><line x1="10" y1="170" x2="290" y2="170" stroke="#9fb7ba" stroke-width="1.4"/><line x1="10" y1="170" x2="10" y2="10" stroke="#9fb7ba" stroke-width="1.4"/><path d="M10,160 C60,60 120,40 290,30" fill="none" stroke="#9fb7ba" stroke-width="2.2"/></svg>
     <div class="otab">Chapter 1</div><h1 class="otitle">What is an <span>Infinite</span> Series?</h1><div class="orule"></div>
     <p class="olead">An infinite sum is not a finite sum written with dots. Its meaning is defined through the sequence of partial sums.</p>
     <div class="opill">GATE CS &middot; ENGINEERING MATHEMATICS &middot; SEQUENCES AND SERIES</div>
-    <div class="oformula">{M(r'S_n=a_1+a_2+\cdots+a_n')}</div><div class="obadge">{hexa(1, 64, fill=DARK, stroke='#aab0ff', col='#ffffff')}</div></div>
+    <div class="oformula">{M(r'S_n=a_1+a_2+\cdots+a_n')}</div><div class="obadge">{hexa(1, 64, fill=DARK, stroke='#9fb7ba', col='#ffffff')}</div></div>
     <div class="oright"><div class="olabel">IN THIS CHAPTER YOU WILL LEARN TO</div>{orows}</div></section>'''
     # ---------- CONTENT ----------
     def ex(n, title, body): return f'<div class="ex"><div class="exh"><span class="exc">Example {n}</span> {title}</div><div class="exb">{body}</div></div>'
@@ -113,32 +113,32 @@ def build(pages_map):
     # figure — sampled from the actual partial sums S_n = 1 - 1/(n+1)
     _c = Canvas(400, 215, (0, 9), (0, 1.05), pad=(46, 46, 16, 28))
     _inner = _c.axes(xticks=(0, 2, 4, 6, 8), yticks=(0, 0.5, 1), xlabel='n', ylabel='S(n)')
-    _inner += _c.plot(lambda n: 1.0, 0, 8, color='#6b46d6', width=1.4, dash='6 4')
+    _inner += _c.plot(lambda n: 1.0, 0, 8, color='#0d6d78', width=1.4, dash='6 4')
     _inner += _c.plot(lambda n: 1 - 1/(n+1) if n >= 0 else 0, 0, 8, n=160,
-                     color='#1a64d8', width=1.8)
+                     color='#0d6d78', width=1.8)
     _inner += _c.points([(n, 1 - 1/(n+1)) for n in range(1, 9)], r=3.4)
-    _inner += _c.rule_label(352, _c.pt(0, 1)[1] - 7, 'S = 1', '#6b46d6')
+    _inner += _c.rule_label(352, _c.pt(0, 1)[1] - 7, 'S = 1', '#0d6d78')
     fig = ('<div class="fig">' + _c.svg(_inner) +
            f'<p class="cap"><b>Figure 1.1</b> Partial sums of Example 1.3 rise towards 1 but never pass it. The horizontal axis is {m("n")}.</p></div>')
     S = '<section class="flow">'
     S += f'<h2 id="s11"><span class="sn">1.1</span> Definition and partial sums</h2><p>An expression of the form {m(r"a_1+a_2+a_3+\cdots+a_n+\cdots")} is called an <b>infinite series</b>. In compact notation we write {m(r"\sum_{n=1}^{\infty}a_n")}. Here {m("a_n")} is the {m("n")}th term, or general term, of the series.</p>'
-    S += f'<div class="def"><span class="rib">Definition</span><p>The <b>{m("n")}th partial sum</b> of the series is the sum of its first {m("n")} terms: {m(r"S_n=a_1+a_2+\cdots+a_n")}. The sequence {m("(S_n)")} completely determines the nature of the series.</p></div>'
+    S += f'<div class="def"><span class="lbl">Definition</span><p>The <b>{m("n")}th partial sum</b> of the series is the sum of its first {m("n")} terms: {m(r"S_n=a_1+a_2+\cdots+a_n")}. The sequence {m("(S_n)")} completely determines the nature of the series.</p></div>'
     S += f'<h2 id="s12"><span class="sn">1.2</span> Convergence, divergence and oscillation</h2><p>The nature of a series is decided by the limit of its partial sums. There are three cases.</p>'
     S += f'<table class="t3"><tr><th>CONVERGENT</th><th>DIVERGENT TO {m(r"\pm\infty")}</th><th>OSCILLATING</th></tr><tr><td>{m(r"\lim_{n\to\infty}S_n=S")}, where {m("S")} is a finite number. {m("S")} is called the sum.</td><td>{m(r"S_n\to+\infty")} or {m(r"S_n\to-\infty")}. The partial sums tend to an infinite limit.</td><td>{m("S_n")} tends neither to a finite limit nor to {m(r"\pm\infty")}.</td></tr></table>'
     S += '<div class="note"><b>Note.</b> Oscillating series are divergent in the broad sense. The three-way naming is kept because it matches many Indian textbooks.</div>'
-    S += f'<div class="slip"><span class="rib r">Common slip</span><p class="w"><b>Wrong</b> {m(r"1-1+1-1+\cdots=(1-1)+(1-1)+\cdots=0")}</p><p class="r2"><b>Right</b> {m("S_n")} alternates between {m("1")} and {m("0")}, so the series oscillates. Regrouping an infinite sum changes its partial sums.</p></div>'
+    S += f'<div class="slip"><span class="lbl">Common slip</span><p class="w"><b>Wrong</b> {m(r"1-1+1-1+\cdots=(1-1)+(1-1)+\cdots=0")}</p><p class="r2"><b>Right</b> {m("S_n")} alternates between {m("1")} and {m("0")}, so the series oscillates. Regrouping an infinite sum changes its partial sums.</p></div>'
     S += f'<h2 id="s13"><span class="sn">1.3</span> Worked examples</h2><p class="lead">Each example finds the partial sum first and then takes its limit.</p>' + xs[0] + xs[1] + xs[2] + fig
     S += '<div class="rq"><h3>Review questions</h3>'
     S += f'<div class="q"><p><b>1.</b> Find {m("S_n")} for {m(r"1-1+1-1+\cdots")} and state its nature.</p><p class="a"><b>Answer.</b> {m("S_n=1")} for odd {m("n")} and {m("S_n=0")} for even {m("n")}. The series oscillates (finitely).</p></div>'
     S += f'<div class="q"><p><b>2.</b> A series has {m(r"S_n=3-\frac1n")}. Find {m("a_1")}, {m("a_n")} for {m(r"n\ge 2")}, and the sum.</p><p class="a"><b>Answer.</b> {m(r"a_1=S_1=2")}. For {m(r"n\ge2")}, {m(r"a_n=S_n-S_{n-1}=\frac1{n-1}-\frac1n=\frac{1}{n(n-1)}")}. The series converges to {m("3")}.</p></div></div>'
-    S += '<div class="sum"><span class="rib g">Chapter summary</span><ul><li>A series is defined by the sequence of its partial sums.</li><li>It converges when the partial sums have a finite limit, diverges to infinity when they tend to infinity, and otherwise oscillates.</li><li>Telescoping series cancel in pairs and often have an explicit sum.</li></ul></div></section>'
+    S += '<div class="sum"><span class="lbl">Chapter summary</span><ul><li>A series is defined by the sequence of its partial sums.</li><li>It converges when the partial sums have a finite limit, diverges to infinity when they tend to infinity, and otherwise oscillates.</li><li>Telescoping series cancel in pairs and often have an explicit sum.</li></ul></div></section>'
     body = svgfont(cover + about + contents + opener + S)
     # render math
     json.dump({str(i): [t, d] for i, (t, d) in enumerate(tex)}, open('tex.json', 'w'))
     subprocess.run(['node', os.path.join(ASSETS, 'mathrender.js'), 'tex.json', 'tex_out.json'], check=True)
     out = json.load(open('tex_out.json'))
     body = re.sub(r'@@(\d+)@@', lambda x: out[x.group(1)], body)
-    css = open(os.path.join(ASSETS, 'book.css')).read().replace('@FS', FS).replace('@NM', NM)
+    css = open(os.path.join(ASSETS, 'book.css')).read().replace('@FS', FS).replace('@NM', NM).replace('@HD', 'Infinite Series')
     kcss = open(NM + '/katex/dist/katex.min.css').read().replace('url(fonts/', 'url(file://' + NM + '/katex/dist/fonts/')
     return f'<html><head><meta charset="utf-8"><style>{kcss}</style><style>{css}</style></head><body>{body}</body></html>'
 
