@@ -57,7 +57,7 @@ STYLE_PACK:    auto      # dsa | programming | maths | theory | mixed | spreadsh
                          # auto = chosen from the SUBJECT of the notes. The look of any previous book or
                          # reference file NEVER decides the pack. Only `spreadsheet` may use spreadsheet chrome.
 SIZE:          large     # body 16 pt, roomy spacing
-PAGE_BUDGET:   full 36–54 pages at SIZE large, mini 28–40 pages
+PAGE_BUDGET:   full 56–72 pages at SIZE large, mini 28–40 pages
                          # at 16 pt body with every worked example owning its own page the floor is ~28.
                          # Count that floor BEFORE building; if it does not fit, change
                          # mode or ask. Outside the budget: fix once, deliver, say so. Never loop.

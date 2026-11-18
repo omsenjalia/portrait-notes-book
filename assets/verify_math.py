@@ -60,6 +60,17 @@ C['octant_xyz']  = (dbl(lambda x, y: x*y*(1-x*x-y*y)/2 if x*x+y*y <= 1 else 0,
 C['cyl_solid']   = (dbl(lambda th, r: r*(1-r*r), 0, math.pi/2,
                         lambda th: 0, lambda th: math.sin(th)), 1e-6)
 
+C['jac_oblique'] = ((0.25*((1**2)/2 - ((-3)**2)/2))*(7-5), 1e-12)
+C['sphere_sph']  = (2*math.pi*2*(1**3/3), 1e-12)
+C['plate_mass']  = (dbl(lambda x,y: 6*x+6*y+6, 0,1, lambda x:0, lambda x:2*x), 1e-9)
+C['plate_mx']    = (dbl(lambda x,y: y*(6*x+6*y+6), 0,1, lambda x:0, lambda x:2*x), 1e-9)
+C['plate_my']    = (dbl(lambda x,y: x*(6*x+6*y+6), 0,1, lambda x:0, lambda x:2*x), 1e-9)
+C['dpp_15']      = (dbl(lambda x,y: x+y, 0,2, lambda x:0, lambda x:3), 1e-12)
+C['dpp_32_3']    = (dbl(lambda x,y: 1, 0,4, lambda x:x*x/4, lambda x:4), 1e-9)
+C['dpp_pi8']     = (simpson(lambda t: math.cos(t)**2/2, 0, math.pi/2), 1e-7)
+C['parabola_area'] = (4*(2**3/3) - 4**3/12, 1e-12)  # x=t^2 substitution, then subtract x^2/4
+C['lemniscate']  = (4*0.5*simpson(lambda t: math.cos(2*t), 0, math.pi/4), 1e-9)
+
 fails = 0
 print(f'{"KEY":12s} {"COMPUTED":>14s} {"EXPECTED":>14s} {"REL.ERR":>10s}  RESULT')
 for key, (computed, tol) in C.items():

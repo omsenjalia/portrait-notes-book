@@ -80,7 +80,7 @@ if mode == 'slice':
 elif mode == 'mini':
     if not 28 <= n <= 40: fails.append(f'{n} pages, PAGE_BUDGET is 28-40')
 else:
-    if not 36 <= n <= 54: fails.append(f'{n} pages, PAGE_BUDGET is 36-54')
+    if not 56 <= n <= 72: fails.append(f'{n} pages, PAGE_BUDGET is 56-72')
 
 # ---- sparse pages + stranded section headings ----
 sparse, orphans = [], []

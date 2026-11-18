@@ -51,6 +51,18 @@ VALUES['octant_xyz']  = (r'\frac{1}{48}', 1/48)
 VALUES['cyl_solid']   = (r'\frac{5\pi a^3}{64}', 5*_m.pi/64)
 
 
+
+VALUES['jac_oblique'] = (r'-2', -2.0)
+VALUES['sphere_sph']  = (r'\frac{4\pi a^3}{3}', 4*_m.pi/3)
+VALUES['plate_mass']  = (r'14', 14.0)
+VALUES['plate_mx']    = (r'11', 11.0)
+VALUES['plate_my']    = (r'10', 10.0)
+VALUES['dpp_15']      = (r'15', 15.0)
+VALUES['dpp_32_3']    = (r'\frac{32}{3}', 32/3)
+VALUES['dpp_pi8']     = (r'\frac{\pi}{8}', _m.pi/8)
+VALUES['parabola_area'] = (r'\frac{16a^2}{3}', 16/3)
+VALUES['lemniscate']  = (r'a^2', 1.0)
+
 def MX(key):
     """Canonical LaTeX for a named result."""
     return VALUES[key][0]
