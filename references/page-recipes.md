@@ -118,6 +118,29 @@ svg = c.svg(inner)
 - Curve labels are plain words (`y = sqrt(x)`, `r = a(1 + cos theta)`): bare
   `√` or `θ` falls back to DejaVu and fails preflight.
 
+### Show the integration strips (source-deck figure grammar)
+
+The lecture slides this template is built from draw every region with a hatched
+band of **integration strips**. Reproduce that language, in the pack's light
+palette, for any region that sets up an integral:
+
+- `strips_vertical(lower, upper, x0, x1)` — many thin upward arrows between two
+  curves; use when the inner integral is `dy`.
+- `strips_horizontal(left, right, y0, y1)` — rightward arrows; use when the
+  inner integral is `dx`.
+- `radial_strips(rfn, t0, t1)` — rays from the origin to a polar curve; use for
+  a `dr` inner integral.
+- `point(x, y, '(a, b)')` marks intersection points with coordinate labels;
+  boundary equations go beside their curves; `split_line(x, ...)` is dashed
+  where the region must be split.
+- For an order-change example use `order_swap_figure()`: two panels of the same
+  region, vertical strips labelled `dy dx` and horizontal strips labelled
+  `dx dy`. This is the clearest teaching figure in the source material.
+
+Strip direction must agree with the differential printed in the integral. A
+regional sketch without strips is acceptable for a definition; one attached to
+a worked example should show the strips.
+
 ### Pagination warning
 
 Never put a multi-page card grid in a `display:flex` container. WeasyPrint
