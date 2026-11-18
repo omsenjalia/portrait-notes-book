@@ -1,8 +1,8 @@
 """preflight.py <notes.pdf> [full|mini|slice] — hard checks; exit 1 if any FAIL. Needs: pip install pdfminer.six
 
 full  (default) = complete book: required pages + 36-54 page budget.
-mini            = condensed book: required pages + 18-26 page budget.
-                  (16 cannot hold the required page list plus one worked chapter.)
+mini            = condensed book: required pages + 28-40 page budget at 16 pt body.
+                  (every worked example owns a page with its own diagram.)
 slice           = partial build (one chapter): skips the full-book page list and
                   budget; checks the core pages a slice must have instead.
 
@@ -71,14 +71,14 @@ for pg in pages:
 bad = {f: c for f, c in fonts.items() if not (f.replace('-', '').startswith('GoogleSans') or f.startswith('KaTeX'))}
 if bad: fails.append(f'fonts outside Google Sans / Google Sans Code / KaTeX: {bad}')
 body = sizes.most_common(1)[0][0]
-if abs(body - 12) > 0.3: fails.append(f'body text is {body} pt, must be 12 pt')
-if codes and codes.most_common(1)[0][0] < 10.4: fails.append(f'listing text is {codes.most_common(1)[0][0]} pt, must be 10.5 pt')
+if abs(body - 16) > 0.4: fails.append(f'body text is {body} pt, must be 16 pt')
+if codes and codes.most_common(1)[0][0] < 13.9: fails.append(f'listing text is {codes.most_common(1)[0][0]} pt, must be 14 pt')
 
 # ---- page budget ----
 if mode == 'slice':
     pass
 elif mode == 'mini':
-    if not 18 <= n <= 26: fails.append(f'{n} pages, PAGE_BUDGET is 18-26')
+    if not 28 <= n <= 40: fails.append(f'{n} pages, PAGE_BUDGET is 28-40')
 else:
     if not 36 <= n <= 54: fails.append(f'{n} pages, PAGE_BUDGET is 36-54')
 
@@ -120,7 +120,7 @@ if ti is not None:
 _map = re.search(r'TOCMAP\s+([^\n]+)', alltext)
 if _map:
     _openers = {i for i, pg in enumerate(pages, 1)
-                if 'INTHISCHAPTERYOUWILLLEARN' in re.sub(r'\s+', '', pg['text']).upper()}
+                if 'INTHISCHAPTERYOUWILL' in re.sub(r'\s+', '', pg['text']).upper()}
     _special = {1} | _openers
     if ti is not None: _special.add(ti + 1)
     for pair in _map.group(1).split():
@@ -150,7 +150,7 @@ for req in reqs:
     if not re.search(re.escape(req), alltext, re.I): fails.append(f'required page missing: {req}')
 
 # ---- chapter openers ----
-openers = [i for i, pg in enumerate(pages, 1) if 'INTHISCHAPTERYOUWILLLEARN' in re.sub(r'\s+', '', pg['text']).upper()]
+openers = [i for i, pg in enumerate(pages, 1) if 'INTHISCHAPTERYOUWILL' in re.sub(r'\s+', '', pg['text']).upper()]
 if not openers: fails.append('no chapter opener pages found')
 for i in openers:
     if len(pages[i - 1]['text'].split()) > 170: fails.append(f'page {i}: chapter opener shares its page with content (must be a full page of its own)')

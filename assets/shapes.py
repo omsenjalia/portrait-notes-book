@@ -287,3 +287,49 @@ def order_swap_figure():
     inner += c.label(o + 1.02, 0, 'x = 1', color=ROLE['axis'], size=9, dy=13)
     inner += c.label(o, 1.04, 'y = x', color=ROLE['rule'], size=9)
     return c.svg(inner, cls='fig')
+
+def rectangle_figure(x0, x1, y0, y1, label='R', strips='vertical'):
+    """Constant-limit rectangle with boundary labels and integration strips."""
+    c = Canvas(360, 180, (x0 - 0.3, x1 + 0.7), (y0 - 0.35, y1 + 0.45),
+               pad=(44, 24, 14, 26))
+    inner = c.region(lambda x: y0, lambda x: y1, x0, x1, opacity=0.07)
+    inner += c.axes(xticks=(x0, x1), yticks=(y0, y1))
+    if strips == 'vertical':
+        inner += c.strips_vertical(lambda x: y0, lambda x: y1, x0, x1, n=9)
+    else:
+        inner += c.strips_horizontal(lambda y: x0, lambda y: x1, y0, y1, n=8)
+    inner += c.label(x0, y0, f'{label}: {x0} <= x <= {x1}, {y0} <= y <= {y1}',
+                     color=ROLE['accent'], size=9, dy=-10)
+    return c.svg(inner, cls='fig')
+
+
+def unit_square_figure():
+    """Unit square for the separable integrand, with vertical dy strips."""
+    return rectangle_figure(0, 1, 0, 1, label='R', strips='vertical')
+
+
+def strip_between_figure():
+    """Region x from y to 2, y from 1 to 2 (Example 1.4)."""
+    c = Canvas(360, 195, (0.5, 2.6), (0.5, 2.5), pad=(46, 26, 14, 28))
+    inner = c.region(lambda x: 1, lambda x: min(x, 2), 1, 2, opacity=0.07)
+    inner += c.axes(xticks=(1, 2), yticks=(1, 2))
+    inner += c.strips_vertical(lambda x: 1, lambda x: min(x, 2), 1, 2, n=8)
+    inner += c.plot(lambda x: x, 0.5, 2, color=ROLE['rule'], width=1.8)
+    inner += c.plot(lambda x: 2, 0.5, 2.5, color=ROLE['data'], width=1.8)
+    inner += c.point(2, 2, '(2, 2)', dx=5, dy=-7)
+    inner += c.label(1.7, 1.1, 'x = y', color=ROLE['rule'], size=9)
+    inner += c.label(1.7, 2.15, 'x = 2', color=ROLE['data'], size=9)
+    return c.svg(inner, cls='fig')
+
+
+def octant_figure():
+    """Quarter disk x^2+y^2 <= a^2 in the first quadrant, vertical strips."""
+    c = Canvas(360, 185, (0, 1.2), (0, 1.2), pad=(44, 26, 14, 26))
+    f = lambda x: math.sqrt(max(0.0, 1 - x*x))
+    inner = c.region(lambda x: 0, f, 0, 1, opacity=0.08)
+    inner += c.axes(xticks=(0, 1), yticks=(0, 1))
+    inner += c.strips_vertical(lambda x: 0, f, 0, 1, n=9)
+    inner += c.plot(f, 0, 1, color=ROLE['rule'], width=2)
+    inner += c.point(1, 0, '(a, 0)', dx=-4, dy=14)
+    inner += c.label(0.55, 0.72, 'sqrt(a^2 - x^2)', color=ROLE['rule'], size=9)
+    return c.svg(inner, cls='fig')

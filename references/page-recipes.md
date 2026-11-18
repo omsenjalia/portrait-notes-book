@@ -141,6 +141,16 @@ Strip direction must agree with the differential printed in the integral. A
 regional sketch without strips is acceptable for a definition; one attached to
 a worked example should show the strips.
 
+### One example, one page
+
+Each worked example carries its own figure and is formatted as:
+**problem → Given box → figure → Method line → step ladder → boxed answer →
+Check line**. Use the `.wsteps` ladder (one `=`-aligned algebraic step per line,
+margin note per step, box on the last line) from `assets/book.css`. The first
+example may sit under its section heading; later examples get `.exnew` and
+start a new page. Do not compress a worked sum into two or three dense display
+equations — the source material shows every intermediate line.
+
 ### Pagination warning
 
 Never put a multi-page card grid in a `display:flex` container. WeasyPrint

@@ -56,10 +56,9 @@ COVER_IMAGE:   none
 STYLE_PACK:    auto      # dsa | programming | maths | theory | mixed | spreadsheet — see references/style-packs.md
                          # auto = chosen from the SUBJECT of the notes. The look of any previous book or
                          # reference file NEVER decides the pack. Only `spreadsheet` may use spreadsheet chrome.
-SIZE:          large     # body 12 pt, roomy spacing
-PAGE_BUDGET:   full 36–54 pages at SIZE large, mini 18–26 pages
-                         # 16 cannot hold the required list plus one worked chapter:
-                         # cover+about+contents+opener+8 sections+5 back pages = 18 floor.
+SIZE:          large     # body 16 pt, roomy spacing
+PAGE_BUDGET:   full 36–54 pages at SIZE large, mini 28–40 pages
+                         # at 16 pt body with every worked example owning its own page the floor is ~28.
                          # Count that floor BEFORE building; if it does not fit, change
                          # mode or ask. Outside the budget: fix once, deliver, say so. Never loop.
 RUN_MODE:      staged    # content -> build -> check, see RUN PLAN. Never build the whole book in one go.
@@ -220,6 +219,29 @@ a time. Explain *why*, not just *what*.
 
 ---
 
+### Writing out a worked sum
+
+Write sums the way a good teacher writes them on a board: **one algebraic step
+per line**, every line starting with `=`, and a short margin note explaining the
+step. Use the `wstep()` ladder from the worked harness (CSS `.wsteps` / `.ws` /
+`.wsbox`). Show intermediate simplifications — do not jump from the integral to
+the answer. Put the final value in a box.
+
+Every worked example is self-contained:
+
+1. A one-line problem statement (the integral and its limits).
+2. A **Given** box: the region, the integrand and any assumptions.
+3. Its **own diagram** showing the integration strips (vertical for `dy`,
+   horizontal for `dx`, radial for `dr`), labelled boundaries and intersection
+   points. No example borrows another example's figure.
+4. A short **Method** line naming the technique.
+5. The step ladder, with a boxed answer on the last line.
+6. A one-line **Check** (a symmetry, a bound, or an independent order).
+
+The first example of a section may share the heading page; every later example
+starts a fresh page (CSS `.exnew`). Extra pages are fine — correctness and clean
+spacing matter more than a page target.
+
 ## DESIGN SYSTEM
 
 ### Theme tokens (light — default)
@@ -248,12 +270,12 @@ Dark theme: near-black page (#0b0b0d), same hues lifted for contrast.
 
 ### Typography (Google Sans) — LARGE and ROOMY
 
-- Body **12 pt**, line-height **1.65**. Bold = Google Sans Bold. No faux bold.
-- Chapter title 32 pt bold. Section heading 17 pt bold, number in the PACK ACCENT colour (never a fixed green).
-  Sub-heading 13.5 pt.
-- Captions 10 pt muted. Ribbons / labels 8.5–9 pt, uppercase, tracked.
-- Code: Google Sans Code 10.5 pt, line-height 1.6, ligatures OFF.
-- Text inside diagrams: minimum 9 pt at print size.
+- Body **16 pt**, line-height **1.65**. Bold = Google Sans Bold. No faux bold.
+- Chapter title 42 pt bold. Section heading 23 pt bold, number in the PACK ACCENT colour (never a fixed green).
+  Sub-heading 18 pt.
+- Captions 13 pt muted. Ribbons / labels 11–12 pt, uppercase, tracked.
+- Code: Google Sans Code 14 pt, line-height 1.6, ligatures OFF.
+- Text inside diagrams: minimum 12 pt at print size.
 - Spacing scale: paragraph gap 10 pt; gap before a section heading 26 pt,
   after it 10 pt; box padding 16–18 pt; gap between a box and the next block
   18 pt. Page margins 20 mm sides, 22 mm top and bottom.
@@ -288,7 +310,7 @@ Number  #b45f06        Comment #7a8294 italic   Operator #b0136a
 
 These are subject-neutral. Keep them in all packs:
 
-- **Large and airy**: 12 pt body, generous spacing, fewer items per page.
+- **Large and airy**: 16 pt body, generous spacing, fewer items per page.
 - **Chapter opener = full page, in EVERY pack** (never a banner across the top of a content page): dark panel on the left (about 55 %) with a
   "Chapter n" tab, big title, rule and lead; objectives as icon rows on the
   right; big chapter number at the bottom of the panel.
@@ -386,7 +408,7 @@ So, what is next? (closing page)
   Never hand-type Bezier control points: a decorative curve that does not
   match its formula is an accuracy bug, and marker points must lie on the curve they annotate.
 - **Flowcharts must be logically correct.** Check each path against the code or the algorithm. Every branch that returns to a loop must join the loop-back line; it must NOT run into another step box (for example, `lo = mid + 1` and `hi = mid - 1` are alternatives, not a sequence).
-- Text inside diagrams is at least 9 pt at print size. Index numbers under array cells too.
+- Text inside diagrams is at least 12 pt at print size. Index numbers under array cells too.
 - A figure may be at most 55 % of the page height. A trace of more than 4 steps goes on its own page.
 - Show the rule you used. A Master-theorem box states the case ("f(n) = Θ(n^(log_b a)) ⇒ T(n) = Θ(n^(log_b a) log n)") before it shows the result.
 
@@ -399,7 +421,7 @@ So, what is next? (closing page)
   - in running text and tables, write the symbol with inline KaTeX (`$\le$`, `$\log_2 n$`, `$2^9$`);
   - in code listings and inline code, use ASCII (`<=`, `>=`, `->`);
   - in SVG labels, use ASCII or words (`sqrt(x)`, `theta`, `sqrt(a^2-x^2)`).
-- Listings are 10.5 pt (line numbers 9 pt or more). Body text is 12 pt. The only text under 9 pt is decoration on the cover.
+- Listings are 14 pt (line numbers 12 pt or more). Body text is 16 pt. The only text under 12 pt is decoration on the cover.
 
 ---
 
@@ -474,7 +496,7 @@ PDF:
 
 PREFLIGHT (run before delivery; a FAIL means rebuild, not "mention it"):
 - python3 assets/preflight.py <Topic>_Notes.pdf    (add `mini` or `slice` as a second argument for mini books / partial slices)
-- It checks: required pages present, chapter openers are full pages, GATE pill names the paper, A4 size, only Google Sans / Google Sans Code / KaTeX fonts, body 12 pt,
+- It checks: required pages present, chapter openers are full pages, GATE pill names the paper, A4 size, only Google Sans / Google Sans Code / KaTeX fonts, body 16 pt,
   listing size, page budget, pages under 60 % full, headings stranded at the bottom of a page, and Contents page numbers against the real heading pages.
 - `python3 assets/verify_math.py` recomputes all values from `math_values.py`
   and must report 0 FAIL(S). `python3 assets/contact_sheet.py <pdf> sheet.png 4`

@@ -92,6 +92,17 @@ def build(pages_map):
     # ---------- CONTENT ----------
     def ex(n, title, body): return f'<div class="ex"><div class="exh"><span class="exc">Example {n}</span> {title}</div><div class="exb">{body}</div></div>'
     def step(l, t): return f'<div class="stp"><span class="pill">{l}</span><span>{t}</span></div>'
+    def wstep(lines):
+        """One algebraic step per '='-aligned line, with a margin note."""
+        out = '<div class="wsteps">'
+        for item in lines:
+            t, note = item if isinstance(item, tuple) else (item, '')
+            out += ('<div class="ws"><span class="eq">=</span><span class="body">'
+                    + m(r'\displaystyle ' + t) + '</span>')
+            if note: out += '<span class="ann">' + note + '</span>'
+            out += '</div>'
+        return out + '</div>'
+    def bx(t): return r'\boxed{' + t + '}'
     xs = []
     xs.append(ex('1.1', 'Sum of the odd positive integers',
       f'<p>Show that {m(r"1+3+5+7+\cdots")} is divergent.</p>' + step('A', f'The {m("n")}th term is {m("a_n=2n-1")}.') + step('B', 'The partial sum is an arithmetic progression:') + f'<div class="disp">{M(r"S_n=\frac n2\,[\,2\cdot 1+(n-1)\cdot 2\,]=n^2")}</div>' + step('C', f'So {m(r"\lim_{n\to\infty}S_n=+\infty")}.') + f'<p class="res"><b>Conclusion.</b> The series is divergent (to {m(r"+\infty")}).</p>'))
@@ -137,7 +148,7 @@ def find_pages(pdf):
     pages = extract_text(pdf).split('\x0c')
     if pages and not pages[-1].strip(): pages.pop()
     res = {}
-    for key, pat in [('ch1', r'What is an\s+Infinite Series\?'), ('s11', r'^1\.1\s+Definition'), ('s12', r'^1\.2\s+Convergence'), ('s13', r'^1\.3\s+Worked')]:
+    for key, pat in [('ch1', r'What is an\s+Infinite\s+Series\?'), ('s11', r'^1\.1\s+Definition'), ('s12', r'^1\.2\s+Convergence'), ('s13', r'^1\.3\s+Worked')]:
         for i, t in enumerate(pages, 1):
             if i > (3 if key == 'ch1' else 4) and re.search(pat, t, re.M): res[key] = str(i); break
     return res
