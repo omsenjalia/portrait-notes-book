@@ -53,6 +53,13 @@ C['neg_1_24']   = (dbl(lambda x, y: x*y, 0, 1, lambda x: x, lambda x: x*x), 1e-8
 C['26_3']       = (simpson(lambda x: 2*x*x + 8, 0, 1), 1e-12)  # y^3 (no /3) slip value
 C['sphere_vol'] = (8 * C['pi_a3_6'][0], 2e-5)
 
+C['area_para']   = (simpson(lambda x: x - x*x, 0, 1), 1e-12)
+C['ellipse_half'] = (simpson(lambda u: math.cos(u)**2, -math.pi/2, math.pi/2), 1e-7)  # x=sin u
+C['octant_xyz']  = (dbl(lambda x, y: x*y*(1-x*x-y*y)/2 if x*x+y*y <= 1 else 0,
+                        0, 1, lambda x: 0, lambda x: math.sqrt(max(0.0,1-x*x))), 1e-6)
+C['cyl_solid']   = (dbl(lambda th, r: r*(1-r*r), 0, math.pi/2,
+                        lambda th: 0, lambda th: math.sin(th)), 1e-6)
+
 fails = 0
 print(f'{"KEY":12s} {"COMPUTED":>14s} {"EXPECTED":>14s} {"REL.ERR":>10s}  RESULT')
 for key, (computed, tol) in C.items():

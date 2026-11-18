@@ -43,6 +43,14 @@ VALUES['e8_1_4']   = (VALUES['e8_1_4'][0], (_m.e ** 8 - 1) / 4)
 VALUES['sphere_vol'] = (VALUES['sphere_vol'][0], 4 * _m.pi / 3)
 
 
+
+# Full-chapter book values (a = 1 where a symbolic result is printed)
+VALUES['area_para']   = (r'\frac{1}{6}', 1/6)
+VALUES['ellipse_half'] = (r'\frac{\pi ab}{2}', _m.pi/2)
+VALUES['octant_xyz']  = (r'\frac{1}{48}', 1/48)
+VALUES['cyl_solid']   = (r'\frac{5\pi a^3}{64}', 5*_m.pi/64)
+
+
 def MX(key):
     """Canonical LaTeX for a named result."""
     return VALUES[key][0]

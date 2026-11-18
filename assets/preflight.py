@@ -121,8 +121,8 @@ _map = re.search(r'TOCMAP\s+([^\n]+)', alltext)
 if _map:
     _openers = {i for i, pg in enumerate(pages, 1)
                 if 'INTHISCHAPTERYOUWILL' in re.sub(r'\s+', '', pg['text']).upper()}
-    _special = {1} | _openers
-    if ti is not None: _special.add(ti + 1)
+    _special = {1} | _openers | {i for i, pg in enumerate(pages, 1)
+                                  if re.search(r'^Contents', pg['text'], re.M)}
     for pair in _map.group(1).split():
         if ':' not in pair: continue
         num, pno = pair.split(':', 1)

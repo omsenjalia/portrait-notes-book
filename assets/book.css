@@ -23,7 +23,7 @@ body{margin:0;string-set:book "Multiple Integrals" sect "Chapter 1"}
 p{margin:0 0 11pt;orphans:3;widows:3}
 .lead{break-after:avoid}
 h1.pt{font-size:42pt;line-height:1.08;letter-spacing:-.03em;font-weight:700;margin:0 0 18pt;string-set:sect content()}
-h2{font-size:23pt;line-height:1.25;letter-spacing:-.02em;font-weight:700;margin:27pt 0 11pt;break-after:avoid;string-set:sect "Chapter 1  \203A  " content()}
+h2{font-size:23pt;line-height:1.25;letter-spacing:-.02em;font-weight:700;margin:27pt 0 11pt;break-after:avoid;string-set:sect content()}
 h2 .sn{color:var(--accent);font-weight:400}
 h3{font-size:18pt;font-weight:700;margin:16pt 0 7pt;break-after:avoid}
 ul{margin:0 0 11pt;padding-left:19pt}li{margin-bottom:3pt}
@@ -50,9 +50,9 @@ h2 + p{break-before:avoid;orphans:4}
 .exnew{break-before:page}
 .exh{background:var(--ink);color:#fff;padding:9pt 14pt;border-radius:var(--r) var(--r) 0 0;font-weight:700;break-after:avoid}
 .exc{font-size:12pt;color:#a9c7ca;margin-right:8pt;font-weight:400}
-.exb{padding:13pt 15pt 2pt}
+.exb{padding:10pt 14pt 2pt}
 .exmeta{break-before:avoid;break-after:avoid}
-.exfig{break-before:avoid;break-inside:avoid;margin:11pt 0}
+.exfig{break-before:avoid;break-inside:avoid;margin:8pt 0}
 .excheck{break-before:avoid;break-inside:avoid}
 
 .stp{margin:0 0 8pt}.pill{display:inline-block;background:var(--accent);color:#fff;font-size:12pt;border-radius:10pt;padding:1pt 9pt;margin-right:8pt}
@@ -92,8 +92,8 @@ h2 + p{break-before:avoid;orphans:4}
 svg text{font-family:"Google Sans"}
 
 /* worked-solution ladder */
-.wsteps{margin:9pt 0 7pt}
-.ws{display:flex;align-items:baseline;margin:0 0 4pt;break-inside:avoid}
+.wsteps{margin:6pt 0 5pt}
+.ws{display:flex;align-items:baseline;margin:0 0 2pt;break-inside:avoid}
 .ws .eq{color:var(--muted);font-size:16pt;width:14pt;flex:none}
 .ws .body{flex:1}
 .ws .ann{color:var(--muted);font-size:12pt;line-height:1.35;margin-left:9pt;max-width:32%}
