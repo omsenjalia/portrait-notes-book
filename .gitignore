@@ -1,0 +1,11 @@
+# Build outputs (worked examples must stay committed)
+*.pdf
+!examples/*.pdf
+
+# Local build scratch
+node_modules/
+__pycache__/
+*.pyc
+tex.json
+tex_out.json
+.DS_Store
