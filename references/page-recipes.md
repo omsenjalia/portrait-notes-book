@@ -94,3 +94,34 @@ wrong or problem, amber = analogy, green = right / result.
 Rules: every shape has a short label; diagrams stay readable at print size
 (min 7 pt text in shapes); no textures, no fake handwriting, no heavy shadows,
 no stock photos.
+
+### Building the shapes in code
+
+Use `assets/shapes.py` rather than hand-written SVG. One `Canvas` owns the
+data-to-pixel transform, so the curve, the shaded region, the axis ticks and
+the markers cannot disagree:
+
+```python
+from shapes import Canvas
+c = Canvas(400, 215, (0, 1), (0, 1), pad=(46, 26, 16, 26))
+inner  = c.region(lambda x: x, lambda x: x**0.5, 0, 1)     # shaded region
+inner += c.axes(xticks=(0, 1), yticks=(0, 1))              # arrowed axes
+inner += c.plot(lambda x: x**0.5, 0, 1)                    # sampled curve
+inner += c.points([(0.25, 0.5)])                           # markers ON the curve
+svg = c.svg(inner)
+```
+
+- `plot(fn, ...)`, `region(lower, upper, ...)` and `polar_curve(rfn, ...)`
+  sample the mathematical definition. Hand-typed Bezier control points are
+  forbidden for any curve that is labelled with a formula.
+- `arrow(x1, y1, x2, y2)` puts the head exactly on the target node.
+- Curve labels are plain words (`y = sqrt(x)`, `r = a(1 + cos theta)`): bare
+  `√` or `θ` falls back to DejaVu and fails preflight.
+
+### Pagination warning
+
+Never put a multi-page card grid in a `display:flex` container. WeasyPrint
+treats flex as unbreakable, so the whole grid jumps to the next page and
+strands its heading. Use `display:inline-block` cards with `break-inside:avoid`
+on each card, `break-after:avoid` on headings and their lead sentence, and
+`orphans`/`widows` on paragraphs.

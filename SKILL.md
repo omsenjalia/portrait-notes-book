@@ -34,6 +34,10 @@ ink colours, no highlighter marks).
    maths build). Open `examples/Binary_Search_Notes.pdf` (dsa pack, finished
    book) and `examples/Infinite_Series_Slice_Test.pdf` (maths pack slice) to
    see the target look before you build.
+4. Use the shared primitives instead of drawing each figure by hand:
+   `assets/shapes.py` samples curves from their definitions, `assets/math_values.py`
+   holds every printed result once, `assets/verify_math.py` recomputes them,
+   and `assets/contact_sheet.py` makes the visual QA image.
 
 ---
 
@@ -53,9 +57,11 @@ STYLE_PACK:    auto      # dsa | programming | maths | theory | mixed | spreadsh
                          # auto = chosen from the SUBJECT of the notes. The look of any previous book or
                          # reference file NEVER decides the pack. Only `spreadsheet` may use spreadsheet chrome.
 SIZE:          large     # body 12 pt, roomy spacing
-PAGE_BUDGET:   full 36–54 pages at SIZE large, mini 12–16 pages
-                         # the required pages alone are about 22, so a 20–30 budget was impossible.
-                         # Outside the budget: fix once, then deliver and say so. Never loop.
+PAGE_BUDGET:   full 36–54 pages at SIZE large, mini 18–26 pages
+                         # 16 cannot hold the required list plus one worked chapter:
+                         # cover+about+contents+opener+8 sections+5 back pages = 18 floor.
+                         # Count that floor BEFORE building; if it does not fit, change
+                         # mode or ask. Outside the budget: fix once, deliver, say so. Never loop.
 RUN_MODE:      staged    # content -> build -> check, see RUN PLAN. Never build the whole book in one go.
 ```
 
@@ -314,16 +320,22 @@ spreadsheet`, i.e. the notes are about Excel or Sheets themselves.
 Build the book in stages. Do not write layout code from scratch each run, and do not wait for a perfect page.
 
 1. **CONTENT.** Read the source once. Write `content.md`: chapters, sections and blocks (plain text with block tags), no CSS, no layout.
-2. **BUILD.** Copy `assets/build_slice.py`, `assets/book.css` and
-   `assets/mathrender.js` into the project and extend, or write `build_book.py`
-   once from them (they read `content.md`-shaped data and are the proven
-   working harness). Install fonts once into `./fonts` / `./node_modules` and
-   reuse them. More than 4 chapters: build in batches, one batch per message,
-   and say which batch is done.
-3. **CHECK.** Run `assets/preflight.py` on the PDF (add `mini` or `slice` as
-   the second argument for mini books / partial slices). View only the pages it
-   flags, plus ONE contact sheet (8 pages per image) that covers the cover,
-   one opener, one listing page and one flowchart. Never view every page one by one.
+2. **BUILD.** Copy `assets/build_slice.py`, `assets/book.css`,
+   `assets/mathrender.js`, `assets/shapes.py` and `assets/math_values.py` into
+   the project and extend, or write `build_book.py` once from them (they read
+   `content.md`-shaped data and are the proven working harness). Draw every
+   figure through `shapes.Canvas` so the curve, ticks, markers and shaded
+   region share one transform; format every printed number through `MX(key)`.
+   Emit a hidden `TOCMAP 1:4 1.1:5 ...` line in the Contents page (class
+   `qa-anchor`) so preflight can really cross-check page numbers. Install
+   fonts once into `./fonts` / `./node_modules` and reuse them. More than 4
+   chapters: build in batches, one batch per message, and say which batch is done.
+3. **CHECK.** Run `assets/verify_math.py` (all printed values must PASS), then
+   `assets/preflight.py` on the PDF (add `mini` or `slice` as the second argument).
+   Then run `assets/contact_sheet.py book.pdf sheet.png 4` and view that ONE
+   image plus only the pages preflight flags. Check the sheet for clipping,
+   stranded headings, near-empty pages and wrong-looking figures. Never view
+   every page one by one.
 
 Limits:
 - At most 2 rebuild loops. After that deliver the file and list what is still wrong.
@@ -369,6 +381,10 @@ So, what is next? (closing page)
 ## FIGURE AND FLOWCHART RULES
 
 - Every arrow ends in a small arrowhead (at most 2 mm) exactly on a node. Branch labels (YES / NO) sit beside the arrow, never on the arrowhead.
+- **Sample curves from their definitions.** Use `shapes.Canvas.plot(fn, ...)`,
+  `.region(lower, upper, ...)`, `.polar_curve(rfn, ...)` and `.arrow(...)`.
+  Never hand-type Bezier control points: a decorative curve that does not
+  match its formula is an accuracy bug, and marker points must lie on the curve they annotate.
 - **Flowcharts must be logically correct.** Check each path against the code or the algorithm. Every branch that returns to a loop must join the loop-back line; it must NOT run into another step box (for example, `lo = mid + 1` and `hi = mid - 1` are alternatives, not a sequence).
 - Text inside diagrams is at least 9 pt at print size. Index numbers under array cells too.
 - A figure may be at most 55 % of the page height. A trace of more than 4 steps goes on its own page.
@@ -379,10 +395,10 @@ So, what is next? (closing page)
 ## FONT AND SYMBOL RULES
 
 - Only three font families may appear in the PDF: Google Sans, Google Sans Code, and KaTeX (maths). No Inter, no Liberation, no DejaVu, no Type 3 text fonts.
-- Google Sans has no glyphs for many symbols (→ ≤ ≥ ≠ ₂ ⁹ Θ ⌊ ⌋ ∞ ∑ and similar). Never let the browser fall back to another font. Instead:
+- Google Sans has no glyphs for many symbols (→ ≤ ≥ ≠ ₂ ⁹ Θ ⌊ ⌋ ∞ ∑ √ θ and similar). Never let the browser fall back to another font; a DejaVu fallback is a preflight FAIL. Instead:
   - in running text and tables, write the symbol with inline KaTeX (`$\le$`, `$\log_2 n$`, `$2^9$`);
   - in code listings and inline code, use ASCII (`<=`, `>=`, `->`);
-  - in SVG labels, use ASCII or words.
+  - in SVG labels, use ASCII or words (`sqrt(x)`, `theta`, `sqrt(a^2-x^2)`).
 - Listings are 10.5 pt (line numbers 9 pt or more). Body text is 12 pt. The only text under 9 pt is decoration on the cover.
 
 ---
@@ -460,6 +476,10 @@ PREFLIGHT (run before delivery; a FAIL means rebuild, not "mention it"):
 - python3 assets/preflight.py <Topic>_Notes.pdf    (add `mini` or `slice` as a second argument for mini books / partial slices)
 - It checks: required pages present, chapter openers are full pages, GATE pill names the paper, A4 size, only Google Sans / Google Sans Code / KaTeX fonts, body 12 pt,
   listing size, page budget, pages under 60 % full, headings stranded at the bottom of a page, and Contents page numbers against the real heading pages.
+- `python3 assets/verify_math.py` recomputes all values from `math_values.py`
+  and must report 0 FAIL(S). `python3 assets/contact_sheet.py <pdf> sheet.png 4`
+  renders the visual QA grid (PyMuPDF pixmaps only — never use PyMuPDF for text
+  extraction, it is pathologically slow on WeasyPrint 70 output).
 - Then do the checks a script cannot do, by looking at the flagged rasterised pages:
   flowcharts are logically correct, Definition comes before first use, no heading
   is separated from its figure, no repeated questions, cover and openers match
@@ -481,7 +501,8 @@ notched definition cards with ribbons, and the `font-family` fix on every
 
 ## DELIVER
 
-- Files: `<Topic>_Notes.pdf` (or .pptx), plus `content.md`, `build_book.py`, `book.css` so the next run can reuse them.
+- Files: `<Topic>_Notes.pdf` (or .pptx), plus `content.md`, `build_book.py`,
+  `book.css` and the `shapes.py` / `math_values.py` outputs so the next run can reuse them.
 - Chat reply, kept short: what was covered, page count, the preflight result, GATE sources checked
   and anything unverified, historical claims and where they came from, any
   OCR / math reconstructions that need a human look. None of that goes

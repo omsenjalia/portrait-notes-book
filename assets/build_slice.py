@@ -19,6 +19,13 @@ Paths:
 import json, re, subprocess, sys, os
 import weasyprint
 from pdfminer.high_level import extract_text
+from shapes import Canvas
+from math_values import MX
+
+
+def svgfont(s):
+    """Put the allowed font on every SVG without duplicating the attribute."""
+    return re.sub(r'<svg(?![^>]*font-family)', '<svg font-family="Google Sans"', s)
 
 ASSETS = os.path.dirname(os.path.abspath(__file__))
 OUT = sys.argv[1] if len(sys.argv) > 1 else 'Infinite_Series_Slice.pdf'
@@ -69,7 +76,9 @@ def build(pages_map):
     # ---------- CONTENTS ----------
     rows = [('1', 'What is an Infinite Series?', 'ch1'), ('1.1', 'Definition and partial sums', 's11'), ('1.2', 'Convergence, divergence and oscillation', 's12'), ('1.3', 'Worked examples', 's13')]
     crow = ''.join(f'<div class="cr {"ch" if "." not in n_ else "sc"}"><span class="n">{n_}</span><span class="tt">{t}</span><span class="dots"></span><span class="pn">{pg(k)}</span></div>' for n_, t, k in rows)
-    contents = f'<section class="flow"><h1 class="pt">Contents</h1>{crow}</section>'
+    tocmap = ' '.join(f'{n_}:{pg(k)}' for n_, _, k in rows)
+    contents = (f'<section class="flow"><h1 class="pt">Contents</h1>{crow}'
+                f'<div class="qa-anchor">TOCMAP {tocmap}</div></section>')
     # ---------- OPENER ----------
     obj = ['Write the general term and the n-th partial sum of a series', 'Decide convergence, divergence to infinity, or oscillation from the partial sums', 'Recognise a telescoping series and evaluate its sum', 'Spot the three classical oscillating examples']
     orows = ''.join(f'<div class="orow">{hexa(i+1, 34)}<div>{t}</div></div>' for i, t in enumerate(obj))
@@ -90,15 +99,16 @@ def build(pages_map):
       f'<p>Test {m(r"8-5-3+8-5-3+8-5-3+\cdots")}.</p>' + step('A', 'Group the terms in threes and add: the partial sums repeat in a cycle.') + f'<div class="disp">{M(r"S_{3n}=0,\quad S_{3n+1}=8,\quad S_{3n+2}=3")}</div>' + step('B', 'Three subsequences tend to three different finite limits.') + '<p class="res"><b>Conclusion.</b> The series oscillates (finitely).</p>'))
     xs.append(ex('1.3', 'A telescoping series',
       f'<p>Examine {m(r"\frac{1}{1\cdot 2}+\frac{1}{2\cdot 3}+\frac{1}{3\cdot 4}+\cdots")}.</p>' + step('A', f'Partial fractions: {m(r"a_n=\frac{1}{n(n+1)}=\frac1n-\frac1{n+1}")}.') + step('B', 'Add the first n terms. Every middle term cancels:') + f'<div class="disp">{M(r"S_n=\left(1-\tfrac12\right)+\left(\tfrac12-\tfrac13\right)+\cdots+\left(\tfrac1n-\tfrac1{n+1}\right)=1-\tfrac{1}{n+1}")}</div>' + step('C', f'Therefore {m(r"\lim_{n\to\infty}S_n=1")}.') + f'<p class="res"><b>Conclusion.</b> The series converges and its sum is {m("1")}. It is called a telescoping series.</p>'))
-    # figure
-    pts = [(1, .5), (2, 2/3), (3, .75), (4, .8), (5, 5/6), (6, 6/7), (7, .875), (8, 8/9)]
-    sx = lambda n: 50 + n*38; sy = lambda v: 190 - v*150
-    fig = f'''<div class="fig"><svg width="290" height="156" viewBox="0 0 400 215"><line x1="50" y1="190" x2="380" y2="190" stroke="#667085" stroke-width="1.4"/><line x1="50" y1="190" x2="50" y2="25" stroke="#667085" stroke-width="1.4"/>
-    <line x1="50" y1="{sy(1)}" x2="380" y2="{sy(1)}" stroke="#6b46d6" stroke-width="1.4" stroke-dasharray="6 4"/><text x="378" y="{sy(1)-6}" text-anchor="end" font-size="11" fill="#6b46d6">S = 1</text>
-    <polyline points="{' '.join(f'{sx(n)},{sy(v):.1f}' for n, v in pts)}" fill="none" stroke="#1a64d8" stroke-width="1.6"/>
-    {''.join(f'<circle cx="{sx(n)}" cy="{sy(v):.1f}" r="4" fill="#1a64d8"/><text x="{sx(n)}" y="206" text-anchor="middle" font-size="10" fill="#667085">{n}</text>' for n, v in pts)}
-    <text x="215" y="190" font-size="0"></text><text x="30" y="30" font-size="10" fill="#667085" text-anchor="middle">S(n)</text></svg>
-    <p class="cap"><b>Figure 1.1</b> Partial sums of Example 1.3 rise towards 1 but never pass it. The horizontal axis is {m("n")}.</p></div>'''
+    # figure — sampled from the actual partial sums S_n = 1 - 1/(n+1)
+    _c = Canvas(400, 215, (0, 9), (0, 1.05), pad=(46, 46, 16, 28))
+    _inner = _c.axes(xticks=(0, 2, 4, 6, 8), yticks=(0, 0.5, 1), xlabel='n', ylabel='S(n)')
+    _inner += _c.plot(lambda n: 1.0, 0, 8, color='#6b46d6', width=1.4, dash='6 4')
+    _inner += _c.plot(lambda n: 1 - 1/(n+1) if n >= 0 else 0, 0, 8, n=160,
+                     color='#1a64d8', width=1.8)
+    _inner += _c.points([(n, 1 - 1/(n+1)) for n in range(1, 9)], r=3.4)
+    _inner += _c.rule_label(352, _c.pt(0, 1)[1] - 7, 'S = 1', '#6b46d6')
+    fig = ('<div class="fig">' + _c.svg(_inner) +
+           f'<p class="cap"><b>Figure 1.1</b> Partial sums of Example 1.3 rise towards 1 but never pass it. The horizontal axis is {m("n")}.</p></div>')
     S = '<section class="flow">'
     S += f'<h2 id="s11"><span class="sn">1.1</span> Definition and partial sums</h2><p>An expression of the form {m(r"a_1+a_2+a_3+\cdots+a_n+\cdots")} is called an <b>infinite series</b>. In compact notation we write {m(r"\sum_{n=1}^{\infty}a_n")}. Here {m("a_n")} is the {m("n")}th term, or general term, of the series.</p>'
     S += f'<div class="def"><span class="rib">Definition</span><p>The <b>{m("n")}th partial sum</b> of the series is the sum of its first {m("n")} terms: {m(r"S_n=a_1+a_2+\cdots+a_n")}. The sequence {m("(S_n)")} completely determines the nature of the series.</p></div>'
@@ -111,7 +121,7 @@ def build(pages_map):
     S += f'<div class="q"><p><b>1.</b> Find {m("S_n")} for {m(r"1-1+1-1+\cdots")} and state its nature.</p><p class="a"><b>Answer.</b> {m("S_n=1")} for odd {m("n")} and {m("S_n=0")} for even {m("n")}. The series oscillates (finitely).</p></div>'
     S += f'<div class="q"><p><b>2.</b> A series has {m(r"S_n=3-\frac1n")}. Find {m("a_1")}, {m("a_n")} for {m(r"n\ge 2")}, and the sum.</p><p class="a"><b>Answer.</b> {m(r"a_1=S_1=2")}. For {m(r"n\ge2")}, {m(r"a_n=S_n-S_{n-1}=\frac1{n-1}-\frac1n=\frac{1}{n(n-1)}")}. The series converges to {m("3")}.</p></div></div>'
     S += '<div class="sum"><span class="rib g">Chapter summary</span><ul><li>A series is defined by the sequence of its partial sums.</li><li>It converges when the partial sums have a finite limit, diverges to infinity when they tend to infinity, and otherwise oscillates.</li><li>Telescoping series cancel in pairs and often have an explicit sum.</li></ul></div></section>'
-    body = (cover + about + contents + opener + S).replace('<svg ', '<svg font-family="Google Sans" ')
+    body = svgfont(cover + about + contents + opener + S)
     # render math
     json.dump({str(i): [t, d] for i, (t, d) in enumerate(tex)}, open('tex.json', 'w'))
     subprocess.run(['node', os.path.join(ASSETS, 'mathrender.js'), 'tex.json', 'tex_out.json'], check=True)

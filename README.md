@@ -69,6 +69,7 @@ what was verified and what was not.
 |---|---|
 | `pip install weasyprint brotli pdfminer.six --break-system-packages` | HTML/CSS → PDF rendering and preflight |
 | `npm install @fontsource/google-sans @fontsource/google-sans-code katex` | Real Google Sans fonts + server-side KaTeX |
+| `pip install pymupdf pillow --break-system-packages` (optional) | Contact-sheet visual QA only — never used for text extraction |
 
 ## Repo layout
 
@@ -76,10 +77,15 @@ what was verified and what was not.
 SKILL.md                  the skill: config, rules, run plan, build method
 references/style-packs.md the 5 subject style packs in full
 references/page-recipes.md page recipes, shape library, pill inventory
-assets/preflight.py       QA script (full | mini | slice modes)
+assets/preflight.py       QA script (full | mini | slice modes; checks TOCMAP anchors)
 assets/build_slice.py     worked one-chapter maths build (reference harness)
-assets/book.css           maths-pack stylesheet used by build_slice.py
+assets/book.css           maths-pack stylesheet + back-matter components
 assets/mathrender.js      batch KaTeX renderer (node)
+assets/shapes.py          sampled SVG primitives (axes, plot, region, polar, arrows)
+assets/math_values.py     one source of truth for every printed number
+assets/verify_math.py     recomputes all values; exit 1 on any mismatch
+assets/contact_sheet.py   visual QA thumbnail grid (optional PyMuPDF + Pillow)
+SOURCES.md                exact citation strings for historical claims
 examples/                 two finished PDFs, showcase + style reference
 ```
 

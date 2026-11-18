@@ -68,3 +68,68 @@ ul{margin:0 0 10pt;padding-left:18pt}li{margin-bottom:3pt}
 .orow{display:flex;align-items:flex-start;margin-bottom:22pt;font-size:11.5pt;line-height:1.45}.orow svg{margin-right:10pt;flex:none}
 .katex{font-size:1.08em}
 svg text{font-family:"Google Sans"}
+
+/* ---- back-matter components (all packs) ---- */
+.orphans{orphans:3;widows:3}
+p{orphans:3;widows:3}
+
+/* Learning in action */
+.factgrid{display:flex;gap:8pt;margin:8pt 0 12pt}
+.fact{flex:1;border:1pt solid #e6c98a;border-top:3pt solid #b06f00;background:#fffaf0;border-radius:4pt;padding:9pt 11pt;font-size:12pt;line-height:1.55}
+.fact b{display:block;color:#b06f00;font-size:8.5pt;letter-spacing:.12em;text-transform:uppercase;margin-bottom:3pt}
+.finderr{border:1pt solid #d3d9e6;border-left:3pt solid #d1342a;border-radius:4pt;padding:9pt 12pt;margin:9pt 0;break-inside:avoid;font-size:12pt;line-height:1.5}
+.finderr .fix{color:#17803d}
+.assess{border:1pt solid #6b46d6;background:#f6f2ff;border-radius:4pt;padding:10pt 12pt;margin:10pt 0;break-inside:avoid}
+.assess .tag{display:inline-block;background:#6b46d6;color:#fff;font-size:8.5pt;letter-spacing:.12em;padding:2pt 8pt;border-radius:9pt;text-transform:uppercase}
+
+/* Practice set: inline-block cards so WeasyPrint can paginate between rows.
+   NEVER use display:flex on a multi-page card grid: flex is unbreakable and
+   strands its heading on a page of its own. */
+.pcards{display:block;margin:8pt 0}
+.pcard{display:inline-block;vertical-align:top;box-sizing:border-box;width:48%;margin:0 6pt 9pt 0;
+       border:1pt solid #d3d9e6;border-radius:4pt;padding:9pt 11pt;break-inside:avoid;font-size:12pt;line-height:1.5}
+.pcard .badge{display:inline-block;background:#3b3fa8;color:#fff;border-radius:50%;width:18pt;height:18pt;line-height:18pt;text-align:center;font-weight:700;font-size:10pt;margin-right:6pt}
+.ptag{display:inline-block;background:#eef0f8;color:#3b3fa8;border:1pt solid #c7cbe6;font-size:8pt;letter-spacing:.08em;padding:1pt 6pt;border-radius:8pt;text-transform:uppercase}
+.wlines{margin-top:8pt;border-top:.6pt dotted #b8bfd4;height:30pt;
+        background:repeating-linear-gradient(to bottom,transparent 0,transparent 12pt,#e9ecf7 12pt,#e9ecf7 12.6pt)}
+.akey{display:flex;flex-wrap:wrap;gap:6pt 14pt;margin-top:6pt;font-size:12pt}
+.akey div{width:45%}
+.answord{color:#17803d;font-weight:700}
+.ansnote{font-size:10pt;color:#667085;margin-top:8pt}
+
+/* Mind map */
+.mm{position:relative;border:1pt solid #c7cbe6;border-radius:6pt;background:#f8f9fd;padding:14pt;margin:8pt 0}
+.mm .hub{display:block;width:100%;text-align:center;background:#1b1f4b;color:#fff;border-radius:5pt;padding:8pt;font-weight:700;font-size:13pt;margin-bottom:12pt}
+.mm .branch{display:flex;gap:8pt;margin-bottom:8pt}
+.mm .node{flex:1;border-left:3pt solid #3b3fa8;background:#fff;border-radius:3pt;padding:7pt 9pt;font-size:10.5pt;line-height:1.4;break-inside:avoid}
+.mm .node b{color:#3b3fa8;display:block;font-size:11pt}
+
+/* Quick reference */
+.qr{width:100%;border-collapse:collapse;font-size:12pt;line-height:1.45;margin:8pt 0}
+.qr th{background:#3b3fa8;color:#fff;font-size:8.5pt;letter-spacing:.12em;text-align:left;padding:6pt 9pt}
+.qr td{border-bottom:.6pt solid #d3d9e6;padding:6pt 9pt;vertical-align:top}
+.qr tr:nth-child(even) td{background:#f4f6fb}
+
+/* You learned how to */
+.ylrow{display:flex;align-items:center;gap:10pt;border-bottom:.6pt solid #e4e7f0;padding:7pt 0;font-size:12pt;break-inside:avoid}
+.ylrow svg{flex:none}
+
+/* Glossary and references */
+.gloss dt{font-weight:700;color:#3b3fa8;margin-top:8pt;font-size:12pt}
+.gloss dd{margin:0 0 4pt 12pt;font-size:12pt;line-height:1.5}
+.refs{font-size:11pt;line-height:1.6;padding-left:16pt}
+.refs li{margin-bottom:4pt}
+
+/* Closing page */
+.closing{page:cover;position:relative;width:210mm;height:296mm;overflow:hidden;break-after:page;background:#1b1f4b;color:#fff}
+.closing .cglow{position:absolute;width:150mm;height:150mm;right:-30mm;top:-30mm;border-radius:50%;background:radial-gradient(circle,#3b3fa8 0%,transparent 70%);opacity:.8}
+.closing .ctag2{position:absolute;left:22mm;top:28mm;border:1pt solid #aab0ff;color:#aab0ff;font-size:9pt;letter-spacing:.16em;padding:3pt 9pt;border-radius:10pt}
+.closing h1{position:absolute;left:22mm;top:52mm;font-size:40pt;line-height:1.1;margin:0}
+.closing .clist{position:absolute;left:22mm;right:22mm;top:104mm}
+.closing .cl{display:flex;gap:12pt;align-items:flex-start;margin-bottom:20pt;font-size:12pt;line-height:1.5}
+.closing .cl b{color:#aab0ff}
+.closing .cend{position:absolute;left:22mm;right:22mm;bottom:24mm;font-size:12pt;line-height:1.6;color:#e6e8ff;border-top:1pt solid #aab0ff;padding-top:12pt}
+
+/* Machine-readable Contents anchor: invisible to the reader, read by preflight.
+   Emitted by the harness as: TOCMAP 1:4 1.1:5 1.2:5 ... */
+.qa-anchor{position:absolute;bottom:1mm;left:0;font-size:6pt;color:#ffffff;letter-spacing:0}

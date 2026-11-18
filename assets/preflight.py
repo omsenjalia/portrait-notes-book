@@ -1,7 +1,8 @@
 """preflight.py <notes.pdf> [full|mini|slice] — hard checks; exit 1 if any FAIL. Needs: pip install pdfminer.six
 
 full  (default) = complete book: required pages + 36-54 page budget.
-mini            = condensed book: required pages + 12-16 page budget.
+mini            = condensed book: required pages + 18-26 page budget.
+                  (16 cannot hold the required page list plus one worked chapter.)
 slice           = partial build (one chapter): skips the full-book page list and
                   budget; checks the core pages a slice must have instead.
 
@@ -77,7 +78,7 @@ if codes and codes.most_common(1)[0][0] < 10.4: fails.append(f'listing text is {
 if mode == 'slice':
     pass
 elif mode == 'mini':
-    if not 12 <= n <= 16: fails.append(f'{n} pages, PAGE_BUDGET is 12-16')
+    if not 18 <= n <= 26: fails.append(f'{n} pages, PAGE_BUDGET is 18-26')
 else:
     if not 36 <= n <= 54: fails.append(f'{n} pages, PAGE_BUDGET is 36-54')
 
@@ -91,9 +92,17 @@ for i, pg in enumerate(pages, 1):
     for t, yt, yb in blocks:
         if re.match(r'^\d+\.\d+\s+\S', t.strip()) and yt > 0.80 * H: orphans.append(i)
 if len(sparse) > 0.15 * n: notes.append(f'warning: {len(sparse)} pages under 60% full: {sparse}')
+_runs, _cur = [], []
+for _i in sparse:
+    if _cur and _i != _cur[-1] + 1: _runs.append(_cur); _cur = []
+    _cur.append(_i)
+if _cur: _runs.append(_cur)
+_long = [r for r in _runs if len(r) >= 3]
+if _long: notes.append('warning: consecutive sparse pages (likely a pagination problem): ' + ', '.join(f'{r[0]}-{r[-1]}' for r in _long))
 if orphans: fails.append(f'section heading stranded at the bottom of page(s) {orphans}')
 
 # ---- Contents page-number cross-check ----
+alltext = '\n'.join(pg['text'] for pg in pages)
 ti = next((i for i, pg in enumerate(pages) if re.search(r'^Contents', pg['text'], re.M)), None)
 if ti is not None:
     rows = re.findall(r'^(\d+\.\d+)\s+(.+?)\s+(\d+)\s*$', pages[ti]['text'], re.M)
@@ -104,8 +113,33 @@ if ti is not None:
         if hit and hit[0] != int(pgno): fails.append(f'Contents says {num} is on page {pgno}, it is on page {hit[0]}')
         if not hit: notes.append(f'Contents row {num} {title!r} not found as a heading')
 
+# ---- machine-readable Contents map (builds may emit a hidden TOCMAP line) ----
+# Flex/reflowed Contents rows confuse text extraction, so the harness writes a
+# plain `TOCMAP 1:4 1.1:5 ...` anchor. When present it is checked for real;
+# older builds without it fall back to the regex check above.
+_map = re.search(r'TOCMAP\s+([^\n]+)', alltext)
+if _map:
+    _openers = {i for i, pg in enumerate(pages, 1)
+                if 'INTHISCHAPTERYOUWILLLEARN' in re.sub(r'\s+', '', pg['text']).upper()}
+    _special = {1} | _openers
+    if ti is not None: _special.add(ti + 1)
+    for pair in _map.group(1).split():
+        if ':' not in pair: continue
+        num, pno = pair.split(':', 1)
+        if not pno.isdigit(): continue
+        if '.' not in num:  # a chapter row must point at a full-page opener
+            if int(pno) not in _openers:
+                fails.append(f'TOCMAP says chapter {num} is on page {pno}, which is not a chapter opener')
+            continue
+        hit = [i for i, pg in enumerate(pages, 1) if i not in _special and
+               any(re.match(r'^' + re.escape(num) + r'(?![\d.])', ln.strip())
+                   for ln, _, _ in pg['lines'])]
+        if hit and hit[0] != int(pno):
+            fails.append(f'TOCMAP says {num} is on page {pno}, it is on page {hit[0]}')
+        if not hit:
+            notes.append(f'TOCMAP entry {num} has no matching heading on page {pno}')
+
 # ---- required pages ----
-alltext = '\n'.join(pg['text'] for pg in pages)
 if mode == 'slice':
     reqs = ['About this book', 'Contents', 'Review questions', 'Chapter summary']
     # the opener itself is verified below by the whitespace-stripped openers check
